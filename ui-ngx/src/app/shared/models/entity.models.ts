@@ -56,6 +56,8 @@ export interface ImportEntityData {
 export interface EdgeImportEntityData extends ImportEntityData {
   secret: string;
   routingKey: string;
+  cloudEndpoint: string;
+  edgeLicenseKey: string;
 }
 
 export interface ImportEntitiesResultInfo {

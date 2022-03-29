@@ -27,7 +27,6 @@ import { getAce } from '@shared/models/ace/ace.models';
 import { Observable } from 'rxjs/internal/Observable';
 import { beautifyJs } from '@shared/models/beautify.models';
 import { of } from 'rxjs';
-import { base64toString, isLiteralObject } from '@core/utils';
 
 export interface EventContentDialogData {
   content: string;
@@ -65,14 +64,6 @@ export class EventContentDialogComponent extends DialogComponent<EventContentDia
     this.createEditor(this.eventContentEditorElmRef, this.content);
   }
 
-  isJson(str) {
-    try {
-      return isLiteralObject(JSON.parse(str));
-    } catch (e) {
-      return false;
-    }
-  }
-
   createEditor(editorElementRef: ElementRef, content: string) {
     const editorElement = editorElementRef.nativeElement;
     let mode = 'java';
@@ -81,16 +72,6 @@ export class EventContentDialogComponent extends DialogComponent<EventContentDia
       mode = contentTypesMap.get(this.contentType).code;
       if (this.contentType === ContentType.JSON && content) {
         content$ = beautifyJs(content, {indent_size: 4});
-      } else if (this.contentType === ContentType.BINARY && content) {
-        try {
-          const decodedData = base64toString(content);
-          if (this.isJson(decodedData)) {
-            mode = 'json';
-            content$ = beautifyJs(decodedData, {indent_size: 4});
-          } else {
-            content$ = of(decodedData);
-          }
-        } catch (e) {}
       }
     }
     if (!content$) {

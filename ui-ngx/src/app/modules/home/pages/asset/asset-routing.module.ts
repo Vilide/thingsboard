@@ -39,7 +39,7 @@ const routes: Routes = [
         path: '',
         component: EntitiesTableComponent,
         data: {
-          auth: [Authority.TENANT_ADMIN, Authority.CUSTOMER_USER],
+          auth: [Authority.SYS_ADMIN, Authority.TENANT_ADMIN],
           title: 'asset.assets',
           assetsType: 'tenant'
         },

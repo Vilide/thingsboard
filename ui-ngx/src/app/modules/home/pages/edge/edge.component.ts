@@ -49,6 +49,9 @@ export class EdgeComponent extends EntityComponent<EdgeInfo> {
 
   ngOnInit() {
     this.edgeScope = this.entitiesTableConfig.componentsData.edgeScope;
+    this.entityForm.patchValue({
+      cloudEndpoint: window.location.origin
+    });
     super.ngOnInit();
   }
 
@@ -70,6 +73,8 @@ export class EdgeComponent extends EntityComponent<EdgeInfo> {
         name: [entity ? entity.name : '', [Validators.required, Validators.maxLength(255)]],
         type: [entity?.type ? entity.type : 'default', [Validators.required, Validators.maxLength(255)]],
         label: [entity ? entity.label : '', Validators.maxLength(255)],
+        cloudEndpoint: [null, [Validators.required, Validators.maxLength(255)]],
+        edgeLicenseKey: ['', [Validators.required, Validators.maxLength(30)]],
         routingKey: this.fb.control({value: entity ? entity.routingKey : null, disabled: true}),
         secret: this.fb.control({value: entity ? entity.secret : null, disabled: true}),
         additionalInfo: this.fb.group(
@@ -88,6 +93,8 @@ export class EdgeComponent extends EntityComponent<EdgeInfo> {
       name: entity.name,
       type: entity.type,
       label: entity.label,
+      cloudEndpoint: entity.cloudEndpoint ? entity.cloudEndpoint : window.location.origin,
+      edgeLicenseKey: entity.edgeLicenseKey,
       routingKey: entity.routingKey,
       secret: entity.secret,
       additionalInfo: {
